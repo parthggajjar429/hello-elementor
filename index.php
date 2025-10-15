@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 get_header();
+<?php
+echo "<h1>Hello from CI/CD!</h1>";
+echo "<p>Test push at $(date)</p>";
 
 $is_elementor_theme_exist = function_exists( 'elementor_theme_do_location' );
 
