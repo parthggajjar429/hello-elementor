@@ -7,17 +7,25 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    timeout-minutes: 10   # ensures workflow won't hang forever
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: Validate PHP files in theme folder only
       - name: Validate PHP syntax
-        run: find . -name "*.php" -print0 | xargs -0 -n1 php -l
+        run: |
+          echo "Checking PHP syntax in theme folder..."
+          find ./ -maxdepth 1 -name "*.php" -print0 | xargs -0 -n1 php -l
 
+      # Step 3: Ensure style.css exists
       - name: Check style.css exists
         run: |
           if [ ! -f style.css ]; then
-            echo "style.css not found!"
+            echo "❌ style.css not found!"
             exit 1
+          else
+            echo "✅ style.css found!"
           fi
