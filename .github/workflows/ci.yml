@@ -1,0 +1,23 @@
+name: WordPress Theme CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate PHP syntax
+        run: find . -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Check style.css exists
+        run: |
+          if [ ! -f style.css ]; then
+            echo "style.css not found!"
+            exit 1
+          fi
